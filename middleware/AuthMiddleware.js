@@ -1,6 +1,6 @@
 const jwtHelper = require('../helpers/jwt.helper');
 
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'khoan-dep-trai-nhat-qua-dat';
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'ACCESS_TOKEN_SECRET';
 
 /**
  * Middleware: Authorization user by Token

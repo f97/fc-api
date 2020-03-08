@@ -2,9 +2,9 @@ const jwtHelper = require('../helpers/jwt.helper');
 
 const tokenList = {};
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '1h';
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'khoan-dep-trai-nhat-qua-dat';
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'ACCESS_TOKEN_SECRET';
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || '3650d';
-const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'khoan-dep-trai-nhat-qua-dat';
+const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'REFRESH_TOKEN_SECRET';
 
 /**
  * controller login

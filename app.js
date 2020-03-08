@@ -8,6 +8,7 @@ const authRouter = require('./routes/auth');
 const AuthMiddleWare = require('./middleware/AuthMiddleware');
 
 const app = express();
+require('dotenv').config();
 
 app.use(logger('dev'));
 app.use(express.json());
