@@ -11,6 +11,7 @@ const app = express();
 require('dotenv').config();
 require('./bin/db');
 
+app.use(express.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const mongoose = require('mongoose');
 
+mongoose.set('useCreateIndex', true);
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fccloud';
 const debug = console.log.bind(console);
 

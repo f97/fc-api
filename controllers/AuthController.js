@@ -1,10 +1,26 @@
 const jwtHelper = require('../helpers/jwt.helper');
+const { User } = require('../models/user');
 
 const tokenList = {};
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '1h';
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'ACCESS_TOKEN_SECRET';
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || '3650d';
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'REFRESH_TOKEN_SECRET';
+
+/**
+ * controller register
+ * @param {*} req
+ * @param {*} res
+ */
+const register = async (req, res) => {
+  try {
+    const user = new User(req.body);
+    return user.save().then((dbUser) => res.send({ message: 'Register success', data: dbUser }), (e) => res.status(400).send({ message: e.errmsg, code: e.code }));
+  }
+  catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
 /**
  * controller login
@@ -59,6 +75,7 @@ const refreshToken = async (req, res) => {
 };
 
 module.exports = {
+  register,
   login,
   refreshToken
 };
