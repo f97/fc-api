@@ -1,3 +1,5 @@
+
+const passport = require('passport');
 const jwtHelper = require('../helpers/jwt.helper');
 const { User } = require('../models/user');
 
@@ -15,7 +17,8 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'REFRESH_TOKEN_SE
 const register = async (req, res) => {
   try {
     const user = new User(req.body);
-    return user.save().then((dbUser) => res.send({ message: 'Register success', data: dbUser }), (e) => res.status(400).send({ message: e.errmsg, code: e.code }));
+    return user.save().then((dbUser) => res.send({ message: 'Register success', data: dbUser }),
+      (e) => res.status(400).send({ message: e.errmsg, code: e.code }));
   }
   catch (error) {
     return res.status(500).json(error);
@@ -29,18 +32,23 @@ const register = async (req, res) => {
  */
 const login = async (req, res) => {
   try {
-    const userFakeData = {
-      _id: '1234-5678-910JQK-tqd',
-      name: 'A A',
-      email: req.body.email
-    };
-
-    const accessToken = await jwtHelper.generateToken(userFakeData, accessTokenSecret, accessTokenLife);
-
-    const refreshToken = await jwtHelper.generateToken(userFakeData, refreshTokenSecret, refreshTokenLife);
-    tokenList[refreshToken] = { accessToken, refreshToken };
-
-    return res.status(200).json({ accessToken, refreshToken });
+    return passport.authenticate('local', { session: false }, async (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          message: info.message,
+          user
+        });
+      }
+      return req.login(user, { session: false }, async (_err) => {
+        if (_err) {
+          return res.send(_err);
+        }
+        const accessToken = await jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife);
+        const refreshToken = await jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife);
+        tokenList[refreshToken] = { accessToken, refreshToken };
+        return res.status(200).json({ accessToken, refreshToken });
+      });
+    })(req, res);
   }
   catch (error) {
     return res.status(500).json(error);
