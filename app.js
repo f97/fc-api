@@ -11,7 +11,7 @@ const AuthMiddleWare = require('./middleware/AuthMiddleware');
 const app = express();
 require('dotenv').config();
 require('./bin/db');
-require('./helpers/passport.helper');
+require('./bin/passport');
 
 app.use(express.json());
 app.use(logger('dev'));
