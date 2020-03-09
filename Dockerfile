@@ -11,4 +11,4 @@ RUN yarn install
 COPY . /app/
 
 EXPOSE 3000
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "dev" ]
