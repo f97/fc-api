@@ -56,6 +56,29 @@ const login = async (req, res) => {
 };
 
 /**
+ * controller google login
+ * @param {*} req
+ * @param {*} res
+ */
+const googleLogin = async (req, res) => {
+  try {
+    const userData = {
+      _id: req.user.profile.id,
+      name: req.user.profile.displayName,
+      // eslint-disable-next-line no-underscore-dangle
+      email: req.user.profile._json.email
+    };
+    const accessToken = await jwtHelper.generateToken(userData, accessTokenSecret, accessTokenLife);
+    const refreshToken = await jwtHelper.generateToken(userData, refreshTokenSecret, refreshTokenLife);
+    tokenList[refreshToken] = { accessToken, refreshToken };
+    return res.status(200).json({ accessToken, refreshToken });
+  }
+  catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+/**
  * controller refreshToken
  * @param {*} req
  * @param {*} res
@@ -85,5 +108,6 @@ const refreshToken = async (req, res) => {
 module.exports = {
   register,
   login,
+  googleLogin,
   refreshToken
 };
