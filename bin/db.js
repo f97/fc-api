@@ -1,13 +1,15 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 
-const mlabURI = 'mongodb://f97:f97@nhom9-shard-00-00-z5b08.gcp.mongodb.net:27017,nhom9-shard-00-01-z5b08.gcp.mongodb.net:27017,nhom9-shard-00-02-z5b08.gcp.mongodb.net:27017/nhom9?ssl=true&replicaSet=Nhom9-shard-0&authSource=admin&retryWrites=true';
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fccloud';
+const debug = console.log.bind(console);
 
-const con = mongoose.connect(mlabURI, (error) => {
+const con = mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
   if (error) {
-    console.log(`Error ${error}`);
+    debug('Error mongoose connect:', error);
   }
   else {
-    console.log('Connected successfully to server');
+    debug('Connected successfully to server');
   }
 });
 

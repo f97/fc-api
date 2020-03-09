@@ -9,6 +9,7 @@ const AuthMiddleWare = require('./middleware/AuthMiddleware');
 
 const app = express();
 require('dotenv').config();
+require('./bin/db');
 
 app.use(logger('dev'));
 app.use(express.json());
