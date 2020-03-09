@@ -79,6 +79,21 @@ const googleLogin = async (req, res) => {
 };
 
 /**
+ * controller facebook login
+ * @param {*} req
+ * @param {*} res
+ */
+const facebookLogin = async (req, res) => {
+  try {
+    console.log('facebookLogin -> req, re', req, res);
+    return res.status(200).json({ accessToken: 'refreshToken' });
+  }
+  catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+/**
  * controller refreshToken
  * @param {*} req
  * @param {*} res
@@ -109,5 +124,6 @@ module.exports = {
   register,
   login,
   googleLogin,
+  facebookLogin,
   refreshToken
 };

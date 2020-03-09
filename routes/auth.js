@@ -21,6 +21,15 @@ router.get('/google/callback',
     AuthController.googleLogin(req, res);
   });
 
+router.get('/facebook',
+  passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  (req, res) => {
+    AuthController.facebookLogin(req, res);
+  });
+
 router.post('/refresh-token', AuthController.refreshToken);
 
 module.exports = router;
